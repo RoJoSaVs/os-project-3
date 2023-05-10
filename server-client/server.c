@@ -61,7 +61,6 @@ void runServer(int port, int key, int mod, pid_t mainPid)
         if(mainPid != getpid())
         {
             processControl(atoi(buffer), key, mod);
-            printInfoMsg("Dentro del fork");
             close(new_socket); // closing the connected socket
             shutdown(server_fd, SHUT_RDWR); // closing the listening socket
             exit(0);

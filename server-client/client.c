@@ -19,8 +19,8 @@ void clientExecution(int port, int number, int key, int mod)
     struct sockaddr_in serv_addr;
     
     char msg[6];
-    int encrytedNumber = rsa(number, key, mod);
-    sprintf(msg, "%d", encrytedNumber);
+    int encryptedNumber = rsa(number, key, mod);
+    sprintf(msg, "%d", encryptedNumber);
 
     char buffer[1024] = { 0 };
 
@@ -44,7 +44,9 @@ void clientExecution(int port, int number, int key, int mod)
     }
 
     send(client_fd, msg, strlen(msg), 0);
-    printInfoMsg(("Encrypted value: %s", msg));
+    char infoMsg[1024];
+    sprintf(infoMsg, "Seed number: %d, encrypted value: %d", number, encryptedNumber);
+    printInfoMsgClient(infoMsg);
   
     // closing the connected socket
     close(client_fd);

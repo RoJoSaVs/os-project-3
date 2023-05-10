@@ -74,7 +74,6 @@ int getIndexForProcess()
 void processControl(int number, int key, int mod)
 {
     int localIndex = getIndexForProcess();
-    printf("Tengo el indice\n");
     
     while (1)
     {
@@ -85,7 +84,9 @@ void processControl(int number, int key, int mod)
             sem_post(indexControlSem);
             
             int decryptedNumber = rsa(number, key, mod); // Call RSA
-            printf("Valor desencriptado %d\n", decryptedNumber);
+            char infoMsg[1024];
+            sprintf(infoMsg, "Value readed %d, value decrypted %d", number, decryptedNumber);
+            printInfoMsg(infoMsg);
             
             // Process number on hardware
             harwareFunction(decryptedNumber);

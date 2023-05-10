@@ -3,9 +3,9 @@
 
 
 
-int rsa(int seed, int key, int mod)
+unsigned long rsa(unsigned long seed, int key, int mod)
 {
-    int c = (int)pow(seed, key);
+    unsigned long c = (unsigned long)pow(seed, key);
     c = c % mod;
     return c;
 }
@@ -19,7 +19,7 @@ int rsa(int seed, int key, int mod)
 //     int public[] = {5, 14};
 //     int private[] = {11, 14};
 
-//     int val = rsa(3, public[0], public[1]);
+//     int val = rsa(13, public[0], public[1]);
 //     printf("Encrypted value: %d\n", val);
 
 //     val = rsa(val, private[0], private[1]);

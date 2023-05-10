@@ -58,7 +58,20 @@ void printInfoMsg(char *msg)
 {
     bold_green();
     printf("---------------------------------------------------------------------\n");
-    printf("\t \t \t %s \n", msg);
+    bold_blue();
+    printf("\t \t %s \n", msg);
+    bold_green();
+    printf("---------------------------------------------------------------------\n");
+    reset();
+}
+
+void printInfoMsgClient(char *msg)
+{
+    bold_green();
+    printf("---------------------------------------------------------------------\n");
+    cyan();
+    printf("\t \t %s \n", msg);
+    bold_green();
     printf("---------------------------------------------------------------------\n");
     reset();
 }
