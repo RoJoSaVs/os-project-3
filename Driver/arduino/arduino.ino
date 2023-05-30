@@ -12,9 +12,8 @@ void setup() {
 
 void loop() {
   if (Serial.available()) {
-    selectedOption = Serial.parseInt();
-    Serial.println(selectedOption);
-    Serial.println(selectedOption);
+    //selectedOption = Serial.parseInt();
+    selectedOption = 3;
     // Encender el LED correspondiente a la opción seleccionada
     switch (selectedOption) {
       case 0:
