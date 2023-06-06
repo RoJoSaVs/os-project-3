@@ -12,18 +12,18 @@ int main(){
 }
 
 int opcion1(){
-    driver(1);
+    driver();
 }
 
 int opcion2(){
-    driver(2);
+    driver();
 }
 
 int opcion3(){
-    driver(3);
+    driver();
 }
 
 int opcion4(){
-    driver(4);
+    driver();
 }
 

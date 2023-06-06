@@ -13,7 +13,8 @@
 //    driver(4);
 //}
 
-int driver(int a) {
+int driver() {
+    int a = 3;
     int arduino = open("/dev/ttyUSB1", O_RDWR | O_NOCTTY | O_NDELAY);
     if (arduino == -1) {
         perror("Error al abrir el puerto serie");
