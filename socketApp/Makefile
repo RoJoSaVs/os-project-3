@@ -16,9 +16,12 @@ client:
 
 
 test:
+	gcc Library/armLib.c -o output/armLib -lm
+	./output/armLib
+
+libtest:
 	gcc server-client/processSync.c -o output/processSync -lm
 	./output/processSync
-
 
 rsa:
 	gcc server-client/rsa.c -o output/rsa -lm
