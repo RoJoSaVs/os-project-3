@@ -97,6 +97,9 @@ fun numPath(sizeNumPad:Float, userInputFromTop:String)
             )
         }
         Column(modifier = Modifier.absolutePadding(0.dp, 150.dp, 0.dp, 0.dp)) {
+            val layoutDirection = LocalLayoutDirection.current
+            val density = LocalDensity.current
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 content = {
@@ -111,6 +114,13 @@ fun numPath(sizeNumPad:Float, userInputFromTop:String)
                             colors = ButtonDefaults.buttonColors(Color.Black),
                         ) {
                             Text("$index", color = Color.LightGray, fontSize = (17 * sizeNumPad).sp)
+                        }.layout { measurable, constraints ->
+                            val placeable = measurable.measure(constraints)
+                            val xPosition = layoutDirection.resolveLeftToRight(placeable.width)
+                            val yPosition = constraints.maxHeight / 2 - placeable.height / 2
+                            val densityXPosition = with(density) { xPosition.toDp() }
+                            val densityYPosition = with(density) { yPosition.toDp() }
+                            placeable.placeRelative(densityXPosition, densityYPosition)
                         }
                     }
                 }
