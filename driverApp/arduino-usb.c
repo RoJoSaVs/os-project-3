@@ -5,6 +5,7 @@
 #include <linux/uaccess.h>
 
 /* Meta Information */
+// Base code taken from: https://github.com/Johannes4Linux/Linux_Driver_Tutorial/blob/main/03_read_write/read_write.c
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Jose Chavarria - Jessica Espinoza - Leonardo Guillen - Ronny Santamaria");
 MODULE_DESCRIPTION("Let read and write data in a device file");
