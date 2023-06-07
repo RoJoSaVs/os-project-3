@@ -35,16 +35,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mobile_app.ui.theme.MobileappTheme
+import android.content.Context
+import android.util.DisplayMetrics
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +68,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+var SCREEN_SIZE = 14.5
+var PHONE_BORDER = 0.8
 
 
 @Composable
@@ -97,30 +105,49 @@ fun numPath(sizeNumPad:Float, userInputFromTop:String)
             )
         }
         Column(modifier = Modifier.absolutePadding(0.dp, 150.dp, 0.dp, 0.dp)) {
-            val layoutDirection = LocalLayoutDirection.current
-            val density = LocalDensity.current
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 content = {
                     items(10){index ->
-                        Button(
-                            onClick = {
-                                mMediaPlayer.start()
-                                textInputFromPad += "$index"},
+                        val columnCenterY = remember { mutableStateOf<Float?>(null) }
+
+                        Box(
                             modifier = Modifier
-                                .padding((7 * (4 - sizeNumPad)).dp)
-                                .size((50 + sizeNumPad * 15).dp),
-                            colors = ButtonDefaults.buttonColors(Color.Black),
+                                .onGloballyPositioned { layoutCoordinates ->
+                                    val centerY = layoutCoordinates.size.height / 2
+                                    val centerYPx = layoutCoordinates.localToRoot(Offset(0f, centerY.toFloat())).y
+
+                                    val value = centerYPx.dp.toString()
+                                    val truncatedValue = value.substring(0, value.indexOf(".0.dp"))
+                                    val floatValue = truncatedValue.toFloat()
+                                    columnCenterY.value = floatValue
+
+                                }
                         ) {
-                            Text("$index", color = Color.LightGray, fontSize = (17 * sizeNumPad).sp)
-                        }.layout { measurable, constraints ->
-                            val placeable = measurable.measure(constraints)
-                            val xPosition = layoutDirection.resolveLeftToRight(placeable.width)
-                            val yPosition = constraints.maxHeight / 2 - placeable.height / 2
-                            val densityXPosition = with(density) { xPosition.toDp() }
-                            val densityYPosition = with(density) { yPosition.toDp() }
-                            placeable.placeRelative(densityXPosition, densityYPosition)
+                            Button(
+                                onClick = {
+                                    mMediaPlayer.start()
+                                    textInputFromPad += "$index"
+                                    columnCenterY.value?.let { centerY ->
+
+                                        val centimeters = (centerY / 403 * 2.54) + 0.2
+                                        val distanceFromBottomOfScreen = (SCREEN_SIZE - centimeters + PHONE_BORDER)
+                                        println("Column Center Y: $distanceFromBottomOfScreen")
+                                    }
+                                },
+                                modifier = Modifier
+                                    .padding((7 * (4 - sizeNumPad)).dp)
+                                    .size((50 + sizeNumPad * 15).dp)
+                                    .align(Alignment.Center),
+                                colors = ButtonDefaults.buttonColors(Color.Black),
+                            ) {
+                                Text(
+                                    "$index",
+                                    color = Color.LightGray,
+                                    fontSize = (17 * sizeNumPad).sp
+                                )
+                            }
                         }
                     }
                 }
@@ -152,7 +179,7 @@ fun numPath(sizeNumPad:Float, userInputFromTop:String)
                         damage.start()
                     }
                     textInputFromPad = ""
-                          },
+                },
                 modifier = Modifier
                     .padding(start = 200.dp, end = 0.dp)
                     .size(80.dp),
@@ -277,8 +304,8 @@ fun getCode()
         )
         {
             Button(onClick = {
-                 displayNumpad = true
-                             },
+                displayNumpad = true
+            },
                 colors = ButtonDefaults.buttonColors(Color.Blue),
                 modifier = Modifier
                     .height(60.dp)
