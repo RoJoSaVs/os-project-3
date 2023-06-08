@@ -110,44 +110,22 @@ fun numPath(sizeNumPad:Float, userInputFromTop:String)
                 columns = GridCells.Fixed(3),
                 content = {
                     items(10){index ->
-                        val columnCenterY = remember { mutableStateOf<Float?>(null) }
-
-                        Box(
+                        var number = index + 1;
+                        if (index == 9){
+                            number = 0;
+                        }
+                        Button(
+                            onClick = {
+                                mMediaPlayer.start()
+                                textInputFromPad += "$number"},
                             modifier = Modifier
-                                .onGloballyPositioned { layoutCoordinates ->
-                                    val centerY = layoutCoordinates.size.height / 2
-                                    val centerYPx = layoutCoordinates.localToRoot(Offset(0f, centerY.toFloat())).y
-
-                                    val value = centerYPx.dp.toString()
-                                    val truncatedValue = value.substring(0, value.indexOf(".0.dp"))
-                                    val floatValue = truncatedValue.toFloat()
-                                    columnCenterY.value = floatValue
-
-                                }
+                                .padding((7 * (4 - sizeNumPad)).dp)
+//                                .size((50 + sizeNumPad * 15).dp),
+                                .size((50).dp),
+                            colors = ButtonDefaults.buttonColors(Color.Black),
                         ) {
-                            Button(
-                                onClick = {
-                                    mMediaPlayer.start()
-                                    textInputFromPad += "$index"
-                                    columnCenterY.value?.let { centerY ->
-
-                                        val centimeters = (centerY / 403 * 2.54) + 0.2
-                                        val distanceFromBottomOfScreen = (SCREEN_SIZE - centimeters + PHONE_BORDER)
-                                        println("Column Center Y: $distanceFromBottomOfScreen")
-                                    }
-                                },
-                                modifier = Modifier
-                                    .padding((7 * (4 - sizeNumPad)).dp)
-                                    .size((50 + sizeNumPad * 15).dp)
-                                    .align(Alignment.Center),
-                                colors = ButtonDefaults.buttonColors(Color.Black),
-                            ) {
-                                Text(
-                                    "$index",
-                                    color = Color.LightGray,
-                                    fontSize = (17 * sizeNumPad).sp
-                                )
-                            }
+//                            Text("$index", color = Color.LightGray, fontSize = (17 * sizeNumPad).sp)
+                            Text("$number", color = Color.LightGray, fontSize = (17).sp)
                         }
                     }
                 }
