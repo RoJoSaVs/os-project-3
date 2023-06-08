@@ -101,10 +101,14 @@ fun numPath(sizeNumPad:Float, userInputFromTop:String)
                 columns = GridCells.Fixed(3),
                 content = {
                     items(10){index ->
+                        var number = index + 1;
+                        if (index == 9){
+                            number = 0;
+                        }
                         Button(
                             onClick = {
                                 mMediaPlayer.start()
-                                textInputFromPad += "$index"},
+                                textInputFromPad += "$number"},
                             modifier = Modifier
                                 .padding((7 * (4 - sizeNumPad)).dp)
 //                                .size((50 + sizeNumPad * 15).dp),
@@ -112,7 +116,7 @@ fun numPath(sizeNumPad:Float, userInputFromTop:String)
                             colors = ButtonDefaults.buttonColors(Color.Black),
                         ) {
 //                            Text("$index", color = Color.LightGray, fontSize = (17 * sizeNumPad).sp)
-                            Text("$index", color = Color.LightGray, fontSize = (17).sp)
+                            Text("$number", color = Color.LightGray, fontSize = (17).sp)
                         }
                     }
                 }
