@@ -12,6 +12,7 @@
 
 #include "controlStruct.c"
 #include "rsa.c"
+#include "../Library/armLib.h"
 
 
 
@@ -22,7 +23,8 @@ struct controlStruct *control;
 
 void hardwareFunction(int numpadSize, int decryptedNumber)
 {
-    sleep(1);
+    moveArm(decryptedNumber);
+    sleep(5);
 }
 
 
