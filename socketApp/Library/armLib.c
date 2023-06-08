@@ -11,12 +11,14 @@ double stick1 = 7.3;
 double stick2 = 5.25;
 double stick3 = 10;
 
+double baseDistance = 7.6;
+
 
 struct number {
     int value;
     int row;
     int column;
-    int distance;
+    float distance;
 };
 
 struct number num;
@@ -35,14 +37,16 @@ int setRowsCols(){
             if(num.value == numpad[row][col]){
                 num.row = row;
                 num.column = col;
+                num.distance = (baseDistance + (2.1 * (3 - row)));
+                printf("NumDistance%0.2f\n", num.distance);
             }
         }
     }
 }
 
-int calcBaseRotationAngle(double sideHorizontal, double sideVertical){
+int calcBaseRotationAngle(double sideHorizontal){
 
-    double angleServo1 = (atan(sideHorizontal / sideVertical) * 180 / M_PI);
+    double angleServo1 = (atan(sideHorizontal / num.distance) * 180 / M_PI);
 
     if(num.column == 1){
         angleServo1 = 90;
@@ -64,9 +68,9 @@ int calcBaseRotationAngle(double sideHorizontal, double sideVertical){
 
 
 // sideHorizontal is the length between the servo and the number in the central line
-int calcServo2RotationAngle(double sideHorizontal, double sideVertical){
+int calcServo2RotationAngle(double sideVertical){
 
-    double sideH_squared = pow(sideHorizontal, 2);
+    double sideH_squared = pow(num.distance, 2);
     double sideV_squared = pow(sideVertical, 2);
 
     double hypotenuse = sqrt(sideH_squared + sideV_squared);
@@ -83,9 +87,9 @@ int calcServo2RotationAngle(double sideHorizontal, double sideVertical){
 }
 
 // sideHorizontal is the length between the servo and the number in the central line
-int calcServo3RotationAngle(double sideHorizontal, double sideVertical){
+int calcServo3RotationAngle(double sideVertical){
 
-    double sideH_squared = pow(sideHorizontal, 2);
+    double sideH_squared = pow(num.distance, 2);
     double sideV_squared = pow(sideVertical, 2);
 
     double hypotenuse = sqrt(sideH_squared + sideV_squared);

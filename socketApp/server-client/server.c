@@ -86,7 +86,7 @@ int main(int argc, char const* argv[])
 
     double baseRotationVertical = 11.7;
 
-    setValues(3);
+    setValues(9);
 
 
     int servo1Angle = calcBaseRotationAngle(2.5, baseRotationVertical);
@@ -117,9 +117,9 @@ int main(int argc, char const* argv[])
     sendCommandToArduino(serialPort, angleServo1String);
     sleep(1);
     sendCommandToArduino(serialPort, "203\n");
-//    sendCommandToArduino(serialPort, angleServo2String);
-//    sleep(1);
-//    sendCommandToArduino(serialPort, angleServo3String);
+    sendCommandToArduino(serialPort, angleServo2String);
+    sleep(1);
+    sendCommandToArduino(serialPort, angleServo3String);
 
     close(serialPort);
 
