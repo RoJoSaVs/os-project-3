@@ -84,7 +84,7 @@ int main(int argc, char const* argv[])
 
     // Send commands to the Arduino
 
-    double baseRotationVertical = 11.5;
+    double baseRotationVertical = 11.7;
 
     setValues(3);
 
@@ -115,9 +115,9 @@ int main(int argc, char const* argv[])
 
 
     sendCommandToArduino(serialPort, angleServo1String);
-//    sendCommandToArduino(serialPort, "901\n");
     sleep(1);
-//    sendCommandToArduino(serialPort, angleServo1String);
+    sendCommandToArduino(serialPort, "203\n");
+//    sendCommandToArduino(serialPort, angleServo2String);
 //    sleep(1);
 //    sendCommandToArduino(serialPort, angleServo3String);
 

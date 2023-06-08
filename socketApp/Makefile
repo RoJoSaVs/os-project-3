@@ -3,7 +3,7 @@ all: build
 build:
 
 server:
-	gcc Library/serialCommArduino.c server-client/server.c -o output/server -lm
+	gcc Library/serialCommArduino.c Library/armLib.c server-client/server.c -o output/server -lm
 	./output/server
 
 client:
