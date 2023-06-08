@@ -13,19 +13,24 @@ int screenDistance;
 
 double stick1 = 8;
 double stick2 = 9.4;
-double stick3 = 10;
+double stick3 = 11.5;
 
-double baseDistance = 7.9;
+double baseDistance = 9;
 
 
 struct number {
     int value;
     int row;
     int column;
-    float distance;
+    double distance;
+    double angleOffsetServo1;
+    double angleOffsetServo2;
+    double angleOffsetServo3;
+
 };
 
 struct number num;
+
 int numpad[4][3] = {
         {1, 2, 3},  // row 0
         {4, 5, 6},  // row 1
@@ -41,7 +46,9 @@ int setRowsCols(){
             if(num.value == numpad[row][col]){
                 num.row = row;
                 num.column = col;
-                num.distance = (baseDistance + (2 * (3 - row)));
+                num.distance = (baseDistance + (1.8 * (3 - row)));
+
+                printf("Distance 1: %.2f\n", num.distance);
             }
         }
     }
@@ -51,6 +58,7 @@ int calcBaseRotationAngle(double sideHorizontal){
 
     double angleServo1 = (atan(sideHorizontal / num.distance) * 180 / M_PI);
 
+    printf("Distance 2: %.2f\n", num.distance);
     if(num.column == 1){
         angleServo1 = 90;
     }
@@ -79,7 +87,7 @@ int calcServo2RotationAngle(double sideVertical){
     double stick3_squared = pow(stick3, 2);
     double hypotenuse_squared = pow(hypotenuse, 2);
 
-    double angleServo2 = (acos(((stick2_squared) + (hypotenuse_squared) - (stick3_squared)) / (2 * stick2 * hypotenuse))) * 180 / M_PI;
+    double angleServo2 = ((acos(((stick2_squared) + (hypotenuse_squared) - (stick3_squared)) / (2 * stick2 * hypotenuse))) * 180 / M_PI);
 
     return angleServo2;
 }
@@ -103,9 +111,6 @@ int calcServo3RotationAngle(double sideVertical){
 // sideHorizontal is the length between the servo and the number in the central line
 int calcServo2OffsetAngle(double sideVertical){
 
-    double sideH_squared = pow(num.distance, 2);
-    double sideV_squared = pow(sideVertical, 2);
-
     double angleOffsetServo2 = (90 - (atan(stick1/num.distance) * 180 / M_PI));
 
     return angleOffsetServo2;
@@ -117,34 +122,32 @@ int setValues(int numVal) {
 }
 
 
-void moveArm(int num){
+void moveArm(int number){
     //-------------------Temporary arduino comms init-----------------------------------
     int serialPort = initSerialComm();
 
     // Send commands to the Arduino
 
-
-    setValues(num);
-
+    setValues(number);
 
     int servo1Angle = calcBaseRotationAngle(2.5);
-    int servo2Angle = calcServo2RotationAngle(8);
-    int servo3Angle = calcServo3RotationAngle(8);
+    int servo2Angle = calcServo2RotationAngle(stick1);
+    int servo3Angle = calcServo3RotationAngle(stick1);
 
-    int servo2OffsetAngle = calcServo2OffsetAngle(8);
+    int servo2OffsetAngle = calcServo2OffsetAngle(stick1);
 
-    int valueServo1 = ((servo1Angle + 1)* 10) + 1;
+    int valueServo1 = ((servo1Angle + 3)* 10) + 1;
     char angleServo1String[20]; // Assuming the string won't exceed 20 characters
     sprintf(angleServo1String, "%d\n", valueServo1);
 
 
-    int valueServo2 = ((servo2Angle + servo2OffsetAngle) * 10) + 2;
+    int valueServo2 = ((servo2Angle + servo2OffsetAngle - 5) * 10) + 2;
     char angleServo2String[20]; // Assuming the string won't exceed 20 characters
     sprintf(angleServo2String, "%d\n", valueServo2);
     printf("valueServo2 %d\n", valueServo2);
 
 
-    int valueServo3 = ((180 - servo3Angle) * 10) + 3;
+    int valueServo3 = ((180 - servo3Angle + 5) * 10) + 3;
     char angleServo3String[20]; // Assuming the string won't exceed 20 characters
     sprintf(angleServo3String, "%d\n", valueServo3);
     printf("valueServo3 %s\n", angleServo3String);
@@ -161,3 +164,4 @@ void moveArm(int num){
 
     close(serialPort);
 }
+

@@ -8,7 +8,9 @@ server:
 
 client:
 	gcc server-client/client.c -o output/client -lm
-	./output/client 3 3
+	./output/client 3 0
+	./output/client 3 6
+	./output/client 3 9
 
 
 test:
