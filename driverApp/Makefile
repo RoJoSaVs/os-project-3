@@ -1,4 +1,4 @@
-obj-m += arduino-usb.o
+obj-m += cdc-acm-pro.o
 
 all: build
 
@@ -20,3 +20,6 @@ test:
 # 	echo "This is a test" > /dev/arduino_usb
 # 	head -n 1 /dev/arduino_usb
 # 	sudo dmesg | tail -n 15
+
+# notas2:
+# sudo dmesg -w
