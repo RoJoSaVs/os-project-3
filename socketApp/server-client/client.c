@@ -10,7 +10,7 @@
 
 
 
-void clientExecution(int port, int number, int key, int mod)
+void clientExecution(int port, int numpadSize, int number, int key, int mod)
 {
     int status;
     int valread;
@@ -20,7 +20,10 @@ void clientExecution(int port, int number, int key, int mod)
     
     char msg[6];
     int encryptedNumber = rsa(number, key, mod);
-    sprintf(msg, "%d", encryptedNumber);
+
+
+    int sendValue = numpadSize * 10 + encryptedNumber;
+    sprintf(msg, "%d", sendValue);
 
     char buffer[1024] = { 0 };
 
@@ -45,7 +48,7 @@ void clientExecution(int port, int number, int key, int mod)
 
     send(client_fd, msg, strlen(msg), 0);
     char infoMsg[1024];
-    sprintf(infoMsg, "Seed number: %d, encrypted value: %d", number, encryptedNumber);
+    sprintf(infoMsg, "Seed number: %d, Numpad Size: %d, encrypted value: %d", number, numpadSize, encryptedNumber % 10);
     printInfoMsgClient(infoMsg);
   
     // closing the connected socket
@@ -55,26 +58,27 @@ void clientExecution(int port, int number, int key, int mod)
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2)
+    if (argc < 3)
     {
         printErrorMsg("Missing arguments");
     }
     else
     {
         int port;
-        int number = atoi(argv[1]);
-        if(argc == 2)
+        int numpadSize = atoi(argv[1]);
+        int number = atoi(argv[2]);
+        if(argc == 3)
         {
             port = 25565; // Default port
         }
         else
         {
-            port = atoi(argv[2]);
+            port = atoi(argv[3]);
         }
         // Values for RSA
         int key = 5;
         int mod = 14;
-        clientExecution(port, number, key, mod);
+        clientExecution(port, numpadSize, number, key, mod);
 
     }
     return 0;

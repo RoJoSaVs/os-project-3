@@ -20,9 +20,9 @@ sem_t *runningProcessSem;
 
 struct controlStruct *control;
 
-void harwareFunction(int decryptedNumber)
+void hardwareFunction(int numpadSize, int decryptedNumber)
 {
-    sleep(5);
+    sleep(1);
 }
 
 
@@ -71,7 +71,7 @@ int getIndexForProcess()
     return localIndex;
 }
 
-void processControl(int number, int key, int mod)
+void processControl(int numpadSize, int number, int key, int mod)
 {
     int localIndex = getIndexForProcess();
     
@@ -89,7 +89,7 @@ void processControl(int number, int key, int mod)
             printInfoMsg(infoMsg);
             
             // Process number on hardware
-            harwareFunction(decryptedNumber);
+            hardwareFunction(numpadSize, decryptedNumber);
 
             sem_wait(indexControlSem);
             control->indexBeingProcessed++;

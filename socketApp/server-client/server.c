@@ -56,11 +56,15 @@ void runServer(int port, int key, int mod, pid_t mainPid)
         }
 
         valread = read(new_socket, buffer, 1024);
+        printf("%d\n", valread);
 
         fork();
         if(mainPid != getpid())
         {
-            processControl(atoi(buffer), key, mod);
+            int value = atoi(buffer);
+            int numpadSize = value / 10;
+            int number = value % 10;
+            processControl(numpadSize, number, key, mod);
             close(new_socket); // closing the connected socket
             shutdown(server_fd, SHUT_RDWR); // closing the listening socket
             exit(0);
