@@ -3,7 +3,7 @@ all: build
 build:
 
 server:
-	gcc server-client/server.c -o output/server -lm
+	gcc Library/serialCommArduino.c Library/armLib.c server-client/server.c -o output/server -lm
 	./output/server
 
 client:
@@ -16,9 +16,12 @@ client:
 
 
 test:
+	gcc Library/armLib.c -o output/armLib -lm
+	./output/armLib
+
+libtest:
 	gcc server-client/processSync.c -o output/processSync -lm
 	./output/processSync
-
 
 rsa:
 	gcc server-client/rsa.c -o output/rsa -lm

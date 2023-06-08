@@ -7,7 +7,7 @@
 
 #include "consoleMsg.c"
 #include "processSync.c"
-
+#include "../Library/armLib.h"
 
 void runServer(int port, int key, int mod, pid_t mainPid)
 {
@@ -78,6 +78,9 @@ void runServer(int port, int key, int mod, pid_t mainPid)
 
 int main(int argc, char const* argv[])
 {
+    int num = 1;
+    moveArm(num);
+
 	int port;
 	if (argc < 2)
     {
@@ -95,7 +98,8 @@ int main(int argc, char const* argv[])
     setSharedMemory();
 
     pid_t mainPid = getpid();
-	runServer(port, key, mod, mainPid);
+	//runServer(port, key, mod, mainPid);
+
 	
 	return 0;
 }
