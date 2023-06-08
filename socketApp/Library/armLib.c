@@ -7,8 +7,8 @@ int screenDistance;
 
 // Initialization of global variable
 
-double stick1 = 7.3;
-double stick2 = 5.25;
+double stick1 = 8;
+double stick2 = 9.4;
 double stick3 = 10;
 
 double baseDistance = 7.6;
@@ -38,7 +38,6 @@ int setRowsCols(){
                 num.row = row;
                 num.column = col;
                 num.distance = (baseDistance + (2.1 * (3 - row)));
-                printf("NumDistance%0.2f\n", num.distance);
             }
         }
     }
@@ -60,9 +59,6 @@ int calcBaseRotationAngle(double sideHorizontal){
         angleServo1 = abs(angleServo1 - 90);
     }
 
-    printf("num col %d\n", num.column);
-    printf("angleServo 1 %.2f\n", angleServo1);
-
     return angleServo1;
 }
 
@@ -79,9 +75,7 @@ int calcServo2RotationAngle(double sideVertical){
     double stick3_squared = pow(stick3, 2);
     double hypotenuse_squared = pow(hypotenuse, 2);
 
-
-    double angleServo2 = (acos(((stick3_squared) + (hypotenuse_squared) - (stick2_squared)) / (2 * stick3 * hypotenuse))) * 180 / M_PI;
-    printf("angleServo2 %.2f\n", angleServo2);
+    double angleServo2 = (acos(((stick2_squared) + (hypotenuse_squared) - (stick3_squared)) / (2 * stick2 * hypotenuse))) * 180 / M_PI;
 
     return angleServo2;
 }
@@ -99,8 +93,21 @@ int calcServo3RotationAngle(double sideVertical){
     double hypotenuse_squared = pow(hypotenuse, 2);
 
     double angleServo3 = (acos(((stick3_squared) + (stick2_squared) - (hypotenuse_squared)) / (2 * stick2 * stick3))) * 180 / M_PI;
-    printf("angleServo3 %.2f\n", angleServo3);
     return angleServo3;
+}
+
+// sideHorizontal is the length between the servo and the number in the central line
+int calcServo2OffsetAngle(double sideVertical){
+
+    double sideH_squared = pow(num.distance, 2);
+    double sideV_squared = pow(sideVertical, 2);
+
+    double hypotenuse = sqrt(sideH_squared + sideV_squared);
+
+
+    double angleOffsetServo2 = (90 - (atan(stick1/num.distance) * 180 / M_PI));
+
+    return angleOffsetServo2;
 }
 
 int setValues(int numVal) {

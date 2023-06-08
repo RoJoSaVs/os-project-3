@@ -5,7 +5,7 @@ Servo servo1;  // Create a servo object
 Servo servo2;  // Create a servo object
 Servo servo3                                          ;  // Create a servo object
 int currentPositionServo1 = 90;
-int currentPositionServo2 = 0;
+int currentPositionServo2 = 115;
 int currentPositionServo3 = 45;
 
 
@@ -96,6 +96,10 @@ void loop() {
       int currentPositionServo = getCurrentPosition(number);
 
       moveServo(currentPositionServo, number/10, servo);
+
+      if(number % 10 == 3){
+        moveServo(currentPositionServo, (number/10 - 30), servo);
+      }
     }
   }
 }

@@ -49,7 +49,6 @@ int sendCommandToArduino(int serialPort, const char* command) {
 }
 
 int initSerialComm(){
-    printf("Open Serial\n");
     int serialPort = openSerialPort();
     serialport_flush(serialPort);
     if (serialPort == -1) {
