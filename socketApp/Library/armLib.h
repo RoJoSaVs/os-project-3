@@ -10,6 +10,7 @@ int calcServo2RotationAngle(double sideVertical);
 int calcServo3RotationAngle(double sideVertical);
 int calcServo2OffsetAngle(double sideVertical);
 int setValues(int numVal);
+void moveArm(int num);
 
 
 #endif //SOCKETAPP_ARMLIB_H

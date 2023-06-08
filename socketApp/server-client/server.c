@@ -7,7 +7,6 @@
 
 #include "consoleMsg.c"
 #include "processSync.c"
-#include "../Library/serialCommArduino.h"
 #include "../Library/armLib.h"
 
 void runServer(int port, int key, int mod, pid_t mainPid)
@@ -75,51 +74,8 @@ void runServer(int port, int key, int mod, pid_t mainPid)
 
 int main(int argc, char const* argv[])
 {
-    //-------------------Temporary arduino comms init-----------------------------------
-    int serialPort = initSerialComm();
-
-    // Send commands to the Arduino
-
-
-    setValues(1);
-
-
-    int servo1Angle = calcBaseRotationAngle(2.5);
-    int servo2Angle = calcServo2RotationAngle(8);
-    int servo3Angle = calcServo3RotationAngle(8);
-
-    int servo2OffsetAngle = calcServo2OffsetAngle(8);
-
-    int valueServo1 = ((servo1Angle + 3)* 10) + 1;
-    char angleServo1String[20]; // Assuming the string won't exceed 20 characters
-    sprintf(angleServo1String, "%d\n", valueServo1);
-
-
-    int valueServo2 = ((servo2Angle + servo2OffsetAngle - 2) * 10) + 2;
-    char angleServo2String[20]; // Assuming the string won't exceed 20 characters
-    sprintf(angleServo2String, "%d\n", valueServo2);
-    printf("valueServo2 %d\n", valueServo2);
-
-
-    int valueServo3 = ((188 - servo3Angle) * 10) + 3;
-    char angleServo3String[20]; // Assuming the string won't exceed 20 characters
-    sprintf(angleServo3String, "%d\n", valueServo3);
-    printf("valueServo3 %s\n", angleServo3String);
-
-
-
-
-    sendCommandToArduino(serialPort, angleServo1String);
-    sleep(1);
-    sendCommandToArduino(serialPort, angleServo2String);
-    sleep(1);
-    sendCommandToArduino(serialPort, angleServo3String);
-    sleep(1);
-
-    close(serialPort);
-
-
-    //-------------------Temporary arduino comms end-----------------------------------
+    int num = 1;
+    moveArm(num);
 
 	int port;
 	if (argc < 2)

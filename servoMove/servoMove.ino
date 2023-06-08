@@ -97,8 +97,8 @@ void loop() {
 
       moveServo(currentPositionServo, number/10, servo);
 
-      if(number % 10 == 3){
-        moveServo(currentPositionServo, (number/10 - 30), servo);
+      if(number % 10 == 2){
+        moveServo(currentPositionServo, (number/10 + 30), servo);
       }
     }
   }
